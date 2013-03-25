@@ -31,6 +31,7 @@ public class GraphMLWriter {
 
     private final Graph graph;
     private boolean normalize = false;
+    private boolean directed = true;
     private Map<String, String> vertexKeyTypes = null;
     private Map<String, String> edgeKeyTypes = null;
 
@@ -70,6 +71,14 @@ public class GraphMLWriter {
      */
     public void setNormalize(final boolean normalize) {
         this.normalize = normalize;
+    }
+    
+    /**
+     * @param directed whether or not the graph will be written out with the edge default set to directed or undirected. 
+     * 				   This only affects the graph written to the XML document.
+     */
+    public void setDirected(final boolean directed) {
+    	this.directed = directed;
     }
 
     /**
@@ -196,7 +205,7 @@ public class GraphMLWriter {
 
             writer.writeStartElement(GraphMLTokens.GRAPH);
             writer.writeAttribute(GraphMLTokens.ID, GraphMLTokens.G);
-            writer.writeAttribute(GraphMLTokens.EDGEDEFAULT, GraphMLTokens.DIRECTED);
+            writer.writeAttribute(GraphMLTokens.EDGEDEFAULT, directed ? GraphMLTokens.DIRECTED : GraphMLTokens.UNDIRECTED);
 
             Iterable<Vertex> vertices;
             if (normalize) {
